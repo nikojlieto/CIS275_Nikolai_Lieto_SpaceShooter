@@ -4,31 +4,49 @@ using UnityEngine;
 
 public class PlayerShipController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private float playerSpeed = 10f;
-    private Rigidbody rb;
+    [SerializeField]
+    protected float playerSpeed = 10f;
+    [SerializeField]
+    private float bulletSpeed = 20f;
+    private Rigidbody2D rb;
+    [SerializeField]
+    private GameObject BulletSprite;
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody2D>(); 
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        //any substantial behaviors are divided into their own methods
+        //movement checks if wasd is used automatically
         Movement();
+        //shoot is only called when space is pressed
+        if(Input.GetKeyDown(KeyCode.Space)){
+            Shoot();
+        }
     }
 
     void Movement()
     {
+        //basic wasd movement in a 2d space
         if (Input.GetKey(KeyCode.W)){
-            Debug.Log("w");
-            rb.velocity = new Vector2(0, playerSpeed*5);
+            transform.position += Vector3.up * playerSpeed * Time.deltaTime;
         } else if (Input.GetKey(KeyCode.A)){
-            rb.velocity = new Vector2(-playerSpeed, 0);
+            transform.position += Vector3.right * -playerSpeed * Time.deltaTime;
         } else if (Input.GetKey(KeyCode.S)){
-            rb.velocity = new Vector2(0, -playerSpeed);
+            transform.position += Vector3.up * -playerSpeed * Time.deltaTime;
         } else if (Input.GetKey(KeyCode.D)){
-            rb.velocity = new Vector2(playerSpeed, 0);
+            transform.position += Vector3.right * playerSpeed * Time.deltaTime;
         }
+    }
+
+    void Shoot()
+    {
+        //instantiate and move a bullet upon being called
+        GameObject firedBullet = Instantiate(BulletSprite, transform.position +(1*transform.forward), Quaternion.identity);
+        if(firedBullet.TryGetComponent(out Rigidbody2D rb)){
+                rb.velocity = Vector3.up * bulletSpeed;
+            }
     }
 }
