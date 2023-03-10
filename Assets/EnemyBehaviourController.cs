@@ -29,4 +29,11 @@ public class EnemyBehaviourController : MonoBehaviour
         }
         //also destroy if hit by a bullet
     }
+       void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.tag=="Bullet")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

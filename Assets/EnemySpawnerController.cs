@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class EnemySpawnerController : MonoBehaviour
 {
-    //enemies spawn randomly from the top of the screen
-    //anywhere within the screen width
-    //enemies move towards the bottom of the screen
-    //random spawn amounts
-    //random time inbetween spawns
     private float enemySpeed = 2f;
     [SerializeField]
     private GameObject EnemySprite;
@@ -23,6 +18,8 @@ public class EnemySpawnerController : MonoBehaviour
     
     void Update()
     {
+        //use this to simulate random time between summons
+        //not quite working as intended...?
         float delayTime = Random.Range(0f, 1000f);
         if(delayTime>995)
         {
@@ -31,6 +28,7 @@ public class EnemySpawnerController : MonoBehaviour
     }
 
     void summonEnemy(){
+        //find range between the sides of the screen
         float enemyNum = Random.Range(1f, 4f);
         Vector3 v01 = camera.ViewportToWorldPoint(new Vector3(0, 1));
         Vector3 v11 = camera.ViewportToWorldPoint(new Vector3(1, 1));
@@ -39,10 +37,14 @@ public class EnemySpawnerController : MonoBehaviour
             float enemyRange = v11.x - v01.x;
             float enemyX = Random.Range(v01.x, v11.x);
             Vector3 enemyPos = new Vector3(enemyX, v01.y, 0);
+            //initialize and speed up enemies
             GameObject newEnemy = Instantiate(EnemySprite, enemyPos, Quaternion.identity);
-        if(newEnemy.TryGetComponent(out Rigidbody2D rb)){
+            if(newEnemy.TryGetComponent(out Rigidbody2D rb))
+            {
                 rb.velocity = Vector3.up * -enemySpeed;
             }
+            //i forgot this at first and my computer was so upset about it orz
+            enemyNum--;
         }
     }
 }
