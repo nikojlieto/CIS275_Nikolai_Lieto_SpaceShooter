@@ -10,7 +10,7 @@ public class BulletBehaviorController : MonoBehaviour
     private Vector3 v01;
     private int score;
     [SerializeField]
-    public TMP_Text scoreText;
+    public TextMeshProUGUI scoreText;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class BulletBehaviorController : MonoBehaviour
         
     }
     //destroy when colliding with enemies
-    void OnCollisionEnter(Collision other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         //tagged all enemy sprites
         if(other.gameObject.tag=="Enemy")
@@ -41,7 +41,8 @@ public class BulletBehaviorController : MonoBehaviour
             Destroy(gameObject);
             //increment, change display of score
             score++;
-           // scoreText.text = "Score: "+ score;
+            Debug.Log(score);
+            //scoreText.text = "Score: "+ score;
         }
     }
 }

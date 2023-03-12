@@ -29,7 +29,7 @@ public class EnemyBehaviourController : MonoBehaviour
         }
         //also destroy if hit by a bullet
     }
-       void OnCollisionEnter(Collision other)
+       void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.tag=="Bullet")
         {
