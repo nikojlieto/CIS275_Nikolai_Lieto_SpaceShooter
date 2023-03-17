@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 
 public class BulletBehaviorController : MonoBehaviour
 {
     private Camera camera;
     private Vector3 v01;
-    private int score;
-    [SerializeField]
-    public TextMeshProUGUI scoreText;
+    public ScoreManager sm;
 
     void Start()
     {
         //get camera data
         camera = Camera.main;
-        //set initial score text
-        //scoreText.text = "Score: 0";
+        sm = FindObjectOfType<ScoreManager>();
+        
     }
     void Update()
     {
@@ -39,10 +37,9 @@ public class BulletBehaviorController : MonoBehaviour
         if(other.gameObject.tag=="Enemy")
         {
             Destroy(gameObject);
-            //increment, change display of score
-            score++;
-            Debug.Log(score);
-            //scoreText.text = "Score: "+ score;
+            //increment
+            sm.AddScore();
+            
         }
     }
 }
